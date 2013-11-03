@@ -68,66 +68,13 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
         });
 
         $scope.getFiles = function(bucket) {
-            /*
-             *  XXX: Refactor -> Move formatting to service
-             */
-            function callback(res) {
-                if (typeof res === 'undefined') {
-                    $location.path("/auth");
-                }
-                else {
-                    $scope.$apply(function() {
-                        $scope.files = [];
-
-                        var x = res.responseXML.documentElement;
-                        var c = x.getElementsByTagName("Contents");
-
-                        /* Go through files */
-                        for (var i = 0; i < c.length; i++) {
-                            var fo = {};
-
-                            /* Go through file parameters */
-                            for (var j = 0; j < c[i].children.length; j++) {
-                                var key = c[i].children[j].tagName;
-                                var value = c[i].children[j].textContent;
-                                fo[key] = value;
-                            }
-                            $scope.files.push(fo);
-                        }
-                    });
-                }
-
-                /* 
-                 * Fix tree 
-                 */
-                var tree = [];
-
-                for (var i = 0; i < $scope.files.length; i++) {
-                    tree.push($scope.files[i].Key);
-                }
-                for (var i = 0; i < tree.length; i++) {
-                    var file = tree[i].replace(/\/$/g, '').split('/');
-
-                    // Go through every dirname
-                    for (var j = 1; j < file.length - 2; j++) {
-
-                        // Check if dir isn't in the tree
-                        var dirname = file.slice(0, j).join('/') + '/';
-                        if (tree.indexOf(dirname) === -1) {
-                            // Create dummy dir
-                            tree.push(dirname);
-                            $scope.$apply(function() {
-                                $scope.files.push(
-                                        {
-                                            "Key": dirname,
-                                            "StorageClass": "Dummy",
-                                            "Size": 0
-                                        });
-                            });
-                        }
-                    }
-                }
-
+            function callback(files) {
+                if (typeof files === 'undefined')
+                    $location.path('/auth');
+                
+                $scope.$apply(function() {
+                    $scope.files = files;
+                });
             }
             AWSConnection.listBucket(bucket, callback);
         };
