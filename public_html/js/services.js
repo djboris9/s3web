@@ -32,7 +32,54 @@ s3webServices.factory('AWSConnection', function() {
                 res.onreadystatechange = function() {
                     if (res.readyState === 4 && res.status === 200)
                     {
-                        callback(res);
+                        var files = [];
+                        
+                        var x = res.responseXML.documentElement;
+                        var c = x.getElementsByTagName("Contents");
+
+                        /* Go through files */
+                        for (var i = 0; i < c.length; i++) {
+                            var fo = {};
+
+                            /* Go through file parameters */
+                            for (var j = 0; j < c[i].children.length; j++) {
+                                var key = c[i].children[j].tagName;
+                                var value = c[i].children[j].textContent;
+                                fo[key] = value;
+                            }
+                            files.push(fo);
+                        }
+
+                        /* 
+                         * Fix tree 
+                         */
+                        var tree = [];
+
+                        for (var i = 0; i < files.length; i++) {
+                            tree.push(files[i].Key);
+                        }
+                        //Go through every file in the tree from s3
+                        for (var i = 0; i < tree.length; i++) {
+                            var file = tree[i].replace(/\/$/g, '').split('/');
+
+                            // Go through every dirname
+                            for (var j = 1; j < file.length - 2; j++) {
+
+                                // Check if dir isn't in the tree
+                                var dirname = file.slice(0, j).join('/') + '/';
+                                if (tree.indexOf(dirname) === -1) {
+                                    // Create dummy dir
+                                    tree.push(dirname);
+                                    files.push(
+                                            {
+                                                "Key": dirname,
+                                                "StorageClass": "Dummy",
+                                                "Size": 0
+                                            });
+                                }
+                            }
+                        }
+                        callback(files);
                     }
                 };
             } else {
