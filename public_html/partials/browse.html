@@ -18,53 +18,62 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301  USA
 -->
 <div ng-controller="BrowseCtrl">
-    <script>
-            alert("Browser");
-    </script>
-    <script ng-if="!isConnected()">
-            document.location.hash = '/';
-            // XXX: Fix
-    </script>
-
     <h2>Browser</h2>
     <table>
         <tr>
-            <td>Location</td>
-            <td><input type="text" ng-model="actual_dir" size="100" /></td>
+            <td>Bucket</td>
+            <td><input type="text" ng-model="bucket" /><button ng-click='refresh()'>Get</button></td>
         </tr>
-        <tr>
+        <tr ng-show="loaded">
+            <td>Location</td>
+            <td><input type="text" ng-model="actual_dir" size="100" readonly="readonly" /></td>
+        </tr>
+        <tr ng-show="loaded">
             <td>Search</td>
             <td><input type="text" ng-model="searchtext" /></td>
         </tr>
     </table>
 
-    <div ng-if="! (actual_dir|endswith:'/')">
-        <a href='{{ getObjectLink(bucket, actual_dir) }}'>Download</a>
+    <h3>Files</h3>
+    <div ng-if="(!(actual_dir|endswith:'/')) && (actual_dir != '')">
+        <a class="btn btn-success" href="{{ getObjectLink(bucket, actual_dir)}}" target="_blank">Download</a>
     </div>
-    
-    <div id="filecontainer" ng-if="actual_dir|endswith:'/'">
-        <div class="file" ng-repeat="file in files|indir:actual_dir|filter:searchtext" ng-controller="FileCtrl">
-            
-            <div class="file_key">
-                <a ng-click="open(file)">{{ file.Key |basename }}</a>
+
+    <div id="filecontainer list-group" ng-if="(actual_dir|endswith:'/') || (actual_dir == '')">
+        <div class="file list-group-item " ng-repeat="file in files|indir:actual_dir|filter:searchtext" ng-controller="FileCtrl">
+
+            <div class="file_key list-group-item-heading">
+                <a ng-hide="file.key |endswith:'/'"
+                   href="{{ getObjectLink(bucket, actual_dir)}}" 
+                   target="_blank">
+                    {{ file.Key |basename }}
+                </a>
+                <a ng-show="(file.Key |endswith:'/')" 
+                   ng-click="open(file)">
+                    {{ file.Key |basename }}
+                </a>
+                <a ng-click="detail = true" ng-init="detail = false">
+                    Details
+                </a>
             </div>
-            <button ng-click="detail = true" ng-init="detail = false">Detail</button>
-            <div ng-show="detail" >
+
+            <div class="list-group-item-text" ng-show="detail">
                 <table>
                     <tr>
-                        <td>MTime</td>
-                        <td>{{ file.LastModified }}</td>
+                        <td>LastModified</td>
+                        <td>{{ file.LastModified}}</td>
                     </tr>
                     <tr>
                         <td>Size</td>
-                        <td>{{ file.Size }}</td>
+                        <td>{{ file.Size}}</td>
                     </tr>
                     <tr>
                         <td>StorageClass</td>
-                        <td>{{ file.StorageClass }}</td>
+                        <td>{{ file.StorageClass}}</td>
                     </tr>
                 </table>
             </div>
+
         </div>
     </div>
 </div>

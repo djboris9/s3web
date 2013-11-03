@@ -23,8 +23,8 @@ MA 02110-1301  USA
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
-        <!--<script src="//code.jquery.com/jquery.js"></script>  deps: angular -->
+<!--        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"> -->
+        <link rel="stylesheet" href="css/style.css">
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-route.min.js"></script>
         <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
@@ -42,11 +42,9 @@ MA 02110-1301  USA
         <div class="container">
             <div ng-controller="MainCtrl">
                 <a href="#/auth/">Auth</a> |
-                <a ng-if="isConnected()" href="#/browse/djboris/">Browse</a>
+                <a ng-if="isConnected()" href="#/browse/">Browse</a>
             </div>
-
             <div ng-view class="view-frame"></div>
         </div>
-     <!--   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
     </body>
 </html>

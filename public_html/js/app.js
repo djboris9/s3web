@@ -32,7 +32,7 @@ s3web.config(['$routeProvider',
         templateUrl: 'partials/auth.html',
         controller: 'AuthCtrl'
       }).
-      when('/browse/:bucket/', {
+      when('/browse/', {
         templateUrl: 'partials/browse.html',
         controller: 'BrowseCtrl',
         reloadOnSearch: false /* TODO: Add option in gui to manage this */

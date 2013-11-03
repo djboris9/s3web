@@ -43,8 +43,10 @@ angular.module('s3webFilters', []).filter('startswith', function() {
                 return files.filter(function(a) {
                     var key = a.Key.replace(/\/$/g, '').split('/');
 
-                    return (dirname.length + 1 === key.length &&
-                            (a.Key.indexOf(dir) === 0 || dir.length === 0));
+                    return ((dirname.length + 1 === key.length &&
+                            a.Key.indexOf(dir) === 0 && 
+                            dir.length !== 0) || 
+                            (dir.length === 0 && key.length === 1));
 
                 });
             };
@@ -73,3 +75,4 @@ angular.module('s3webFilters', []).filter('startswith', function() {
                 return obj;
             };
         });
+        // TODO: Implement File Size Converter

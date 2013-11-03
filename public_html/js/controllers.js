@@ -56,9 +56,10 @@ s3webControllers.controller('AuthCtrl', ['$scope', 'AWSConnection', '$location',
 
 s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnection', '$location',
     function($scope, $routeParams, AWSConnection, $location) {
-        $scope.actual_dir = $routeParams.path;
+        $scope.actual_dir = $routeParams.path || '';
         $scope.bucket = $routeParams.bucket;
-
+        $scope.loaded = false;
+        
         $scope.$on('$routeUpdate', function() {
             $scope.actual_dir = $routeParams.path;
         });
@@ -83,8 +84,11 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
             return AWSConnection.getObjectLink(bucket, key);
         };
 
-        /* Intitialize */
-        $scope.getFiles($scope.bucket);
+        $scope.refresh = function() {
+            $location.search("bucket", $scope.bucket);
+            $scope.getFiles($scope.bucket);
+            $scope.loaded = true;
+        };
     }]);
 
 s3webControllers.controller('FileCtrl', ['$scope', 'AWSConnection', '$location',
