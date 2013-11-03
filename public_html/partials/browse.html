@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2013 djboris.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301  USA
+-->
+<div ng-controller="BrowseCtrl">
+    <script>
+            alert("Browser");
+    </script>
+    <script ng-if="!isConnected()">
+            document.location.hash = '/';
+            // XXX: Fix
+    </script>
+
+    <h2>Browser</h2>
+    <table>
+        <tr>
+            <td>Location</td>
+            <td><input type="text" ng-model="actual_dir" size="100" /></td>
+        </tr>
+        <tr>
+            <td>Search</td>
+            <td><input type="text" ng-model="searchtext" /></td>
+        </tr>
+    </table>
+
+    <div ng-if="! (actual_dir|endswith:'/')">
+        <a href='{{ getObjectLink(bucket, actual_dir) }}'>Download</a>
+    </div>
+    
+    <div id="filecontainer" ng-if="actual_dir|endswith:'/'">
+        <div class="file" ng-repeat="file in files|indir:actual_dir|filter:searchtext" ng-controller="FileCtrl">
+            
+            <div class="file_key">
+                <a ng-click="open(file)">{{ file.Key |basename }}</a>
+            </div>
+            <button ng-click="detail = true" ng-init="detail = false">Detail</button>
+            <div ng-show="detail" >
+                <table>
+                    <tr>
+                        <td>MTime</td>
+                        <td>{{ file.LastModified }}</td>
+                    </tr>
+                    <tr>
+                        <td>Size</td>
+                        <td>{{ file.Size }}</td>
+                    </tr>
+                    <tr>
+                        <td>StorageClass</td>
+                        <td>{{ file.StorageClass }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

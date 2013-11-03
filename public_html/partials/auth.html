@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2013 djboris.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301  USA
+-->
+<div ng-controller="AuthCtrl">
+    <h2>Auth</h2>
+    <table>
+        <tr class="form-group">
+            <td><label>AWS Key</label></td>
+            <td><input class="form-control" type="text" ng-model="key" /></td>
+        </tr>
+        <tr>
+            <td><label>AWS Secret Key</label></td>
+            <td><input class="form-control" type="text" ng-model="secret" placeholder="Enter new value" /></td>
+        </tr>
+        <tr>
+            <td><label>Host</label></td>
+            <td><input class="form-control" type="text" ng-model="host" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input class="form-control" type="submit" ng-click="login(key, secret)" value="Connect" /></td>
+        </tr>
+    </table>
+</div>
+
