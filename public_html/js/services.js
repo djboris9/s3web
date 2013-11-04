@@ -98,6 +98,10 @@ s3webServices.factory('AWSConnection', function() {
             cfg = new amzlib.cfg(key, secret, host);
             connected = true;
         },
+        disconnect: function() {
+            cfg = null;
+            connected = false;
+        },
         isConnected: function() {
             return connected;
         },

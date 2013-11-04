@@ -22,16 +22,15 @@ MA 02110-1301  USA
         <title>S3 Webapp</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<!--        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"> -->
+        <link rel="stylesheet" href="css/bootstrap-3.0.0/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-route.min.js"></script>
-        <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
-        <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-utf16-min.js"></script>
-        <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
-        <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha1.js"></script>
-        <script src="js/config.js"></script>
+        <script src="js/libs/angularjs-1.2.0-rc.2/angular.js"></script>
+        <script src="js/libs/angularjs-1.2.0-rc.2/angular-route.min.js"></script>
+        <script src="js/libs/cryptojs-3.1.2/core-min.js"></script>
+        <script src="js/libs/cryptojs-3.1.2/enc-utf16-min.js"></script>
+        <script src="js/libs/cryptojs-3.1.2/enc-base64-min.js"></script>
+        <script src="js/libs/cryptojs-3.1.2/hmac-sha1.js"></script>
+        <script src="config.js"></script>
         <script src="js/amzlib.js"></script>
         <script src="js/app.js"></script>
         <script src="js/controllers.js"></script>
@@ -40,10 +39,11 @@ MA 02110-1301  USA
     </head>
     <body>
         <div class="container">
-            <div ng-controller="MainCtrl">
-                <a href="#/auth/">Auth</a> |
-                <a ng-if="isConnected()" href="#/browse/">Browse</a>
-            </div>
+            <h1>S3Web</h1>
+            <nav ng-controller="MainCtrl">
+                <a href="#/info/">About</a>
+                <a ng-if="isConnected()" ng-click="logout()">| Logout</a>
+            </nav>
             <div ng-view class="view-frame"></div>
         </div>
     </body>

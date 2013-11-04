@@ -43,17 +43,20 @@ MA 02110-1301  USA
         <div class="file list-group-item " ng-repeat="file in files|indir:actual_dir|filter:searchtext" ng-controller="FileCtrl">
 
             <div class="file_key list-group-item-heading">
-                <a ng-hide="file.key |endswith:'/'"
+                <a ng-if="!(file.Key |endswith:'/')" 
                    href="{{ getObjectLink(bucket, actual_dir)}}" 
                    target="_blank">
                     {{ file.Key |basename }}
                 </a>
-                <a ng-show="(file.Key |endswith:'/')" 
+                <a ng-if="(file.Key |endswith:'/')" 
                    ng-click="open(file)">
                     {{ file.Key |basename }}
                 </a>
-                <a ng-click="detail = true" ng-init="detail = false">
+                <a ng-hide="detail" ng-click="detail = true" ng-init="detail = false">
                     Details
+                </a>
+                <a ng-show="detail" ng-click="detail = false">
+                    Hide
                 </a>
             </div>
 

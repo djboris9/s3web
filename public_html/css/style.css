@@ -21,3 +21,22 @@ MA 02110-1301  USA
     Author     : djboris
 */
 
+body {
+    background-color: gray;
+}
+
+nav a {
+    color: white;
+    font-size: 2em;
+}
+
+#authbox {
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30em;
+    left: 0;
+    right: 0;
+    margin: auto;
+}

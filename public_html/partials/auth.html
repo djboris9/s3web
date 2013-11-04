@@ -17,25 +17,32 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301  USA
 -->
-<div ng-controller="AuthCtrl">
-    <h2>Auth</h2>
-    <table>
-        <tr class="form-group">
-            <td><label>AWS Key</label></td>
-            <td><input class="form-control" type="text" ng-model="key" /></td>
-        </tr>
-        <tr>
-            <td><label>AWS Secret Key</label></td>
-            <td><input class="form-control" type="text" ng-model="secret" placeholder="Enter new value" /></td>
-        </tr>
-        <tr>
-            <td><label>Host</label></td>
-            <td><input class="form-control" type="text" ng-model="host" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input class="form-control" type="submit" ng-click="login(key, secret)" value="Connect" /></td>
-        </tr>
-    </table>
+<div id="authbox" ng-controller="AuthCtrl">
+    <h2>Login to S3</h2>
+    <div class="form-group">
+        <label>AWS Access Key</label>
+        <input class="form-control" type="text" size="50" ng-model="key" placeholder="AWS Access Key" />
+    </div>
+    <div class="form-group">
+        <label>AWS Secret Key</label>
+        <input class="form-control" type="text" ng-model="secret" placeholder="AWS Secret Key" />
+    </div>
+
+    <div>
+        <label>SSL</label>
+        <input type="checkbox" ng-model="ssl" ng-true-value="s" ng-false-value="" style="margin-left:1em;" />
+    </div>
+
+    <div class="form-group">
+        <label>Endpoint</label>
+        <select class="form-control" ng-model="host">
+            <option ng-repeat="ep in endpoints" value="http{{ssl}}://{{ep}}">
+                http{{ssl}}://{{ep}}
+            </option>
+        </select>
+    </div>
+
+    <input class="form-control" type="submit" ng-click="login(key, secret)" value="Connect" />
+
 </div>
 

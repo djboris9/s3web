@@ -21,20 +21,23 @@
 
 var s3webControllers = angular.module('s3webControllers', ['ngRoute']);
 
-s3webControllers.controller('MainCtrl', ['$scope', 'AWSConnection',
-    function($scope, AWSConnection) {
+s3webControllers.controller('MainCtrl', ['$scope', 'AWSConnection', '$location',
+    function($scope, AWSConnection, $location) {
         $scope.isConnected = function() {
             return AWSConnection.isConnected();
         };
-
+        $scope.logout = function() {
+            AWSConnection.disconnect();
+            $location.path("/auth/");
+        };
     }]);
-
 
 s3webControllers.controller('AuthCtrl', ['$scope', 'AWSConnection', '$location',
     function($scope, AWSConnection, $location) {
         $scope.key = AWSConnection.getKey();
         $scope.host = AWSConnection.getHost();
         $scope.secret = AWSConnection.getSecret();
+        $scope.endpoints = CFG.ENDPOINT;
 
         if ($scope.host === "") {
             $scope.host = CFG.AMZ_HOST;
@@ -50,7 +53,6 @@ s3webControllers.controller('AuthCtrl', ['$scope', 'AWSConnection', '$location',
             AWSConnection.connect($scope.key, $scope.secret, $scope.host);
             // TODO: Find a better place
             $location.path("/browse/");
-
         };
     }]);
 
@@ -59,7 +61,7 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
         $scope.actual_dir = $routeParams.path || '';
         $scope.bucket = $routeParams.bucket;
         $scope.loaded = false;
-        
+
         $scope.$on('$routeUpdate', function() {
             $scope.actual_dir = $routeParams.path;
         });
@@ -72,7 +74,7 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
             function callback(files) {
                 if (typeof files === 'undefined')
                     $location.path('/auth');
-                
+
                 $scope.$apply(function() {
                     $scope.files = files;
                 });

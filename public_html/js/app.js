@@ -19,25 +19,25 @@
 'use strict';
 
 var s3web = angular.module('s3web', [
-  'ngRoute',
-  's3webControllers',
-  's3webFilters',
-  's3webServices'
+    'ngRoute',
+    's3webControllers',
+    's3webFilters',
+    's3webServices'
 ]);
 
 s3web.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/auth/', {
-        templateUrl: 'partials/auth.html',
-        controller: 'AuthCtrl'
-      }).
-      when('/browse/', {
-        templateUrl: 'partials/browse.html',
-        controller: 'BrowseCtrl',
-        reloadOnSearch: false /* TODO: Add option in gui to manage this */
-      }).
-      otherwise({
-        redirectTo: '/auth'
-      });
-  }]);
+    function($routeProvider) {
+        $routeProvider.
+                when('/auth/', {
+                    templateUrl: 'partials/auth.html',
+                    controller: 'AuthCtrl'
+                }).
+                when('/browse/', {
+                    templateUrl: 'partials/browse.html',
+                    controller: 'BrowseCtrl',
+                    reloadOnSearch: false /* TODO: Add option in gui to manage this */
+                }).
+                otherwise({
+                    redirectTo: '/auth'
+                });
+    }]);
