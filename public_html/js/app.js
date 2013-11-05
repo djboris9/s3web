@@ -35,7 +35,10 @@ s3web.config(['$routeProvider',
                 when('/browse/', {
                     templateUrl: 'partials/browse.html',
                     controller: 'BrowseCtrl',
-                    reloadOnSearch: false /* TODO: Add option in gui to manage this */
+                    reloadOnSearch: false
+                }).
+                when('/about/', {
+                    templateUrl: 'partials/about.html'
                 }).
                 otherwise({
                     redirectTo: '/auth'

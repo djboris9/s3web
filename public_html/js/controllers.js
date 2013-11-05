@@ -39,9 +39,6 @@ s3webControllers.controller('AuthCtrl', ['$scope', 'AWSConnection', '$location',
         $scope.secret = AWSConnection.getSecret();
         $scope.endpoints = CFG.ENDPOINT;
 
-        if ($scope.host === "") {
-            $scope.host = CFG.AMZ_HOST;
-        }
         if ($scope.key === "") {
             $scope.key = CFG.DEMO_KEY;
         }
@@ -63,7 +60,7 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
         $scope.loaded = false;
 
         $scope.$on('$routeUpdate', function() {
-            $scope.actual_dir = $routeParams.path;
+                $scope.actual_dir = $routeParams.path || '';
         });
 
         $scope.$watch('actual_dir', function() {
@@ -93,10 +90,16 @@ s3webControllers.controller('BrowseCtrl', ['$scope', '$routeParams', 'AWSConnect
         };
     }]);
 
-s3webControllers.controller('FileCtrl', ['$scope', 'AWSConnection', '$location',
-    function($scope, AWSConnection, $location) {
+s3webControllers.controller('FileCtrl', ['$scope', '$location',
+    function($scope, $location) {
         $scope.open = function(file) {
-            $location.search("path", (file.Key));
+            if (file === '..') {
+                var path = $scope.actual_dir.replace(/\/$/g, '').split('/');
+                path = path.slice(0, path.length - 1).join('/') + '/';
+                $location.search("path", path);
+            } else {
+                $location.search("path", file.Key);
+            }
         };
     }]);
 

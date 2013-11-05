@@ -23,6 +23,7 @@ MA 02110-1301  USA
 
 body {
     background-color: gray;
+    background-color: #3f6d9b;
 }
 
 nav a {
@@ -39,4 +40,9 @@ nav a {
     left: 0;
     right: 0;
     margin: auto;
+}
+
+.file_key {
+    width: 50%;
+    display:inline-block;
 }

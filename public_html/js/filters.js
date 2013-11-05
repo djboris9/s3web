@@ -29,6 +29,8 @@ angular.module('s3webFilters', []).filter('startswith', function() {
         .filter('endswith', function() {
             return function(path, end) {
                 path = path || '';
+                if (typeof path !== 'string')
+                    path = '';
                 return (path.indexOf(end, path.length - end.length) !== -1);
             };
         })
@@ -46,7 +48,7 @@ angular.module('s3webFilters', []).filter('startswith', function() {
                     return ((dirname.length + 1 === key.length &&
                             a.Key.indexOf(dir) === 0 && 
                             dir.length !== 0) || 
-                            (dir.length === 0 && key.length === 1));
+                            ((dir === '' || dir === '/') && key.length === 1));
 
                 });
             };
@@ -69,10 +71,22 @@ angular.module('s3webFilters', []).filter('startswith', function() {
                 return path[path.length - 2];
             };
         })
+        .filter('fulldirname', function() {
+            return function(path) {
+                path = path.replace(/\/$/g, '').split('/');
+                return path.slice(0, path.length - 1).join('/') + '/';
+            };
+        })
         .filter('log', function() {
             return function(obj) {
                 console.log(obj);
                 return obj;
+            };
+        })
+        .filter('length', function() {
+            return function(obj) {
+                obj = obj || '';
+                return obj.toString().length;
             };
         });
         // TODO: Implement File Size Converter
