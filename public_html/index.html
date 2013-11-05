@@ -19,7 +19,7 @@ MA 02110-1301  USA
 -->
 <html ng-app="s3web">
     <head>
-        <title>S3 Webapp</title>
+        <title>S3Web</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap-3.0.0/bootstrap.min.css">
@@ -39,10 +39,11 @@ MA 02110-1301  USA
     </head>
     <body>
         <div class="container">
-            <h1>S3Web</h1>
             <nav ng-controller="MainCtrl">
-                <a href="#/info/">About</a>
-                <a ng-if="isConnected()" ng-click="logout()">| Logout</a>
+                <a href="#/about/">About</a>
+                <a ng-if="isConnected()" href="#/browse/"> | Browser</a>
+                <a ng-if="isConnected()" ng-click="logout()"> | Logout</a>
+                <a ng-if="!isConnected()" href="#/auth/"> | Login</a>
             </nav>
             <div ng-view class="view-frame"></div>
         </div>
