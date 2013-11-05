@@ -19,36 +19,40 @@ MA 02110-1301  USA
 -->
 <div ng-controller="BrowseCtrl">
     <h2>Browser</h2>
-    <table>
-        <tr>
-            <td>Bucket</td>
-            <td><input type="text" ng-model="bucket" /><button ng-click='refresh()'>Get</button></td>
-        </tr>
-        <tr ng-show="loaded">
-            <td>Location</td>
-            <td><input type="text" ng-model="actual_dir" size="100" readonly="readonly" /></td>
-        </tr>
-        <tr ng-show="loaded">
-            <td>Search</td>
-            <td><input type="text" ng-model="searchtext" /></td>
-        </tr>
-    </table>
+    <label>Bucket</label>
+    <form>
+        <div class="input-group" style="width: 15em;">
+            <input class="form-control" type="text" ng-model="bucket" />
+            <span class="input-group-btn">
+                <input type="submit" ng-if="(bucket|length) >= 3" class="btn btn-default" ng-click='refresh()' value="Get" />
+            </span>
+        </div>
+    </form>
 
-    <h3>Files</h3>
+
+    <h3>Files <small>{{ actual_dir}}</small></h3>
+
+    <div ng-show="loaded">
+        <label>Filter</label>
+        <input type="text" ng-model="searchtext" />
+    </div>
+
     <div ng-if="(!(actual_dir|endswith:'/')) && (actual_dir != '')">
         <a class="btn btn-success" href="{{ getObjectLink(bucket, actual_dir)}}" target="_blank">Download</a>
     </div>
 
     <div id="filecontainer list-group" ng-if="(actual_dir|endswith:'/') || (actual_dir == '')">
+        <a class="list-group-item" ng-click="open('..')" ng-controller="FileCtrl">..</a>
+
         <div class="file list-group-item " ng-repeat="file in files|indir:actual_dir|filter:searchtext" ng-controller="FileCtrl">
 
-            <div class="file_key list-group-item-heading">
-                <a ng-if="!(file.Key |endswith:'/')" 
-                   href="{{ getObjectLink(bucket, actual_dir)}}" 
+            <div class="list-group-item-heading">
+                <a class="file_key" ng-if="!(file.Key |endswith:'/')" 
+                   href="{{ getObjectLink(bucket, file.Key)}}" 
                    target="_blank">
                     {{ file.Key |basename }}
                 </a>
-                <a ng-if="(file.Key |endswith:'/')" 
+                <a class="file_key" ng-if="(file.Key |endswith:'/')" 
                    ng-click="open(file)">
                     {{ file.Key |basename }}
                 </a>

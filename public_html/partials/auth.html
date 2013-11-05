@@ -35,7 +35,7 @@ MA 02110-1301  USA
 
     <div class="form-group">
         <label>Endpoint</label>
-        <select class="form-control" ng-model="host">
+        <select class="form-control" ng-model="host" required="required">
             <option ng-repeat="ep in endpoints" value="http{{ssl}}://{{ep}}">
                 http{{ssl}}://{{ep}}
             </option>
